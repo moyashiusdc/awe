@@ -10,20 +10,13 @@ app = Flask(__name__)
 SECRET_KEY = 'secret_key'
 
 #일단 아무주소나
-client = MongoClient('mongodb+srv://sparta_db_user:[EMAIL_ADDRESS]/?appName=Cluster0')
-
-# 13번 라인 뒤에 이 두 줄만 남기고 나머지 한글 설명은 지우세요
+client = MongoClient("mongodb://localhost:27017")
 db = client.dbsparta 
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-return jsonify({'result': 'success', 'token': token})
-
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 #해시 + 솔트는 그냥넘어감
 @app.route('/api/register', methods=['POST'])
@@ -34,12 +27,6 @@ def register():
     pw_hash = generate_password_hash(user_pw)
     db.users.insert_one({'id': user_id, 'pw': pw_hash})
     return jsonify({'msg': '회원가입완료'})
-
-@app.route('/api/login', methods=['POST'])
-def login():
-    user_id = request.form['id_give']
-    user_pw = request.form['pw_give']
-    return jsonify({'msg': '로그인완료'})
 
 @app.route('/api/login', methods=['POST'])
 def login():
