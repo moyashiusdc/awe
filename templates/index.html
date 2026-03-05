@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<body>
+    <h1>회원가입 / 로그인</h1>
+
+    <div>
+        <input type="text" id="user_id" placeholder="아이디">
+        <input type="password" id="user_pw" placeholder="비밀번호">
+        <button onclick="register()">회원가입</button>
+        <button onclick="login()">로그인</button>
+    </div>
+
+    <script>
+        function register() {
+            let id = $('#user_id').val();
+            let pw = $('#user_pw').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/register",
+                data: { id_give: id, pw_give: pw },
+                success: function (response) {
+                    alert(response['msg']);
+                }
+            });
+        }
+
+        function login() {
+            let id = $('#user_id').val();
+            let pw = $('#user_pw').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: { id_give: id, pw_give: pw },
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        // 서버가 준 토큰을 브라우저의 쿠키에 저장합니다.
+                        document.cookie = "mytoken=" + response['token'] + "; path=/";
+                        alert('로그인 성공');
+                        window.location.reload();
+                    } else {
+                        alert(response['msg']);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
