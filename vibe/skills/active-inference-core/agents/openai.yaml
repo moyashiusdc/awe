@@ -1,0 +1,4 @@
+interface:
+  display_name: "Active Inference Core"
+  short_description: "Build and debug active inference loops"
+  default_prompt: "Use $active-inference-core to design, debug, or explain an active inference agent or survival-world implementation with A/B/C/D, variational free energy, and explicit risk plus ambiguity terms."
